@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software Purchase and Approval Policy – Request Form</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #eef2f7; color: #1f2937;
+    margin: 0; padding: 24px 12px; line-height: 1.5;
+  }
+  .container {
+    max-width: 960px; margin: 0 auto; background: #fff;
+    padding: 36px 40px; border-radius: 10px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  }
+  h1 {
+    text-align: center; color: #0b3b7a;
+    border-bottom: 3px solid #0b3b7a;
+    padding-bottom: 12px; margin-top: 0; font-size: 22px;
+  }
+  h2 {
+    color: #0b3b7a; margin-top: 32px; font-size: 18px;
+    border-left: 4px solid #0b3b7a; padding-left: 10px;
+  }
+  h3 { color: #1f4e8a; margin-top: 22px; font-size: 15px; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+  th, td {
+    border: 1px solid #cbd5e1; padding: 10px 12px;
+    vertical-align: middle; font-size: 14px;
+  }
+  th { background: #f1f5f9; text-align: left; width: 40%; font-weight: 600; }
+  input[type="text"], input[type="date"], input[type="number"],
+  input[type="email"], textarea, select {
+    width: 100%; padding: 8px 10px;
+    border: 1px solid #cbd5e1; border-radius: 4px;
+    font-size: 14px; font-family: inherit;
+  }
+  textarea { resize: vertical; min-height: 60px; }
+  input:focus, textarea:focus, select:focus {
+    outline: none; border-color: #0b3b7a;
+    box-shadow: 0 0 0 2px rgba(11,59,122,0.15);
+  }
+  ul { margin: 8px 0 16px 24px; }
+  li { margin-bottom: 6px; }
+  .sign-block {
+    margin-top: 16px; padding: 16px; background: #f8fafc;
+    border: 1px solid #cbd5e1; border-radius: 6px;
+  }
+  .sign-block h4 { margin: 0 0 12px 0; color: #0b3b7a; }
+  .sign-row { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 12px; }
+  .sign-row > div { flex: 1 1 220px; }
+  .sign-row label {
+    display: block; font-size: 13px; font-weight: 600;
+    margin-bottom: 4px; color: #374151;
+  }
+  .sig-canvas-wrap {
+    border: 2px dashed #94a3b8; border-radius: 6px;
+    background: #fff; position: relative;
+  }
+  canvas {
+    display: block; width: 100%; height: 150px;
+    border-radius: 6px; cursor: crosshair; touch-action: none;
+  }
+  .sig-placeholder {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: #94a3b8; font-size: 14px;
+    pointer-events: none; user-select: none;
+  }
+  .sig-actions { margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .sig-meta {
+    margin-top: 8px; font-size: 12px; color: #475569;
+    background: #e0f2fe; padding: 8px 10px; border-radius: 4px;
+    display: none; word-break: break-all;
+  }
+  .sig-meta.active { display: block; }
+  button {
+    padding: 8px 16px; border: none; border-radius: 4px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    transition: all 0.15s;
+  }
+  button:disabled { opacity: 0.6; cursor: not-allowed; }
+  .btn-primary { background: #0b3b7a; color: #fff; }
+  .btn-primary:hover:not(:disabled) { background: #082d5e; }
+  .btn-secondary { background: #e2e8f0; color: #1f2937; }
+  .btn-secondary:hover:not(:disabled) { background: #cbd5e1; }
+  .btn-danger { background: #dc2626; color: #fff; }
+  .btn-danger:hover:not(:disabled) { background: #b91c1c; }
+  .btn-success { background: #15803d; color: #fff; }
+  .btn-success:hover:not(:disabled) { background: #14532d; }
+  .action-bar {
+    margin-top: 30px; padding-top: 20px;
+    border-top: 2px solid #e2e8f0;
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  }
+  .action-bar button { padding: 10px 24px; font-size: 14px; }
+  .note {
+    margin-top: 24px; padding: 12px 16px;
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    border-radius: 4px; font-size: 13px;
+  }
+  #status {
+    margin-top: 16px; padding: 12px 16px; border-radius: 4px;
+    font-size: 14px; display: none; text-align: center;
+  }
+  #status.show { display: block; }
+  #status.success { background: #dcfce7; color: #14532d; border-left: 4px solid #15803d; }
+  #status.error { background: #fee2e2; color: #7f1d1d; border-left: 4px solid #dc2626; }
+  #status.info { background: #dbeafe; color: #1e3a8a; border-left: 4px solid #2563eb; }
+  .spinner {
+    display: inline-block; width: 14px; height: 14px;
+    border: 2px solid #fff; border-top-color: transparent;
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+    margin-right: 6px; vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .container { box-shadow: none; padding: 0; }
+    .sig-actions, .action-bar, #status { display: none !important; }
+    .sig-canvas-wrap { border: 1px solid #333; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Software &amp; AI Tools — Purchase and Approval Request</h1>
+
+  <h2>7. Software &amp; AI Tools Request Form <span style="font-weight:normal;font-size:13px;">(To be filled by HOD)</span></h2>
+
+  <h3>A. Department Details</h3>
+  <table>
+    <tr><th>Department Name</th><td><input type="text" name="dept_name"></td></tr>
+    <tr><th>Head of Department</th><td><input type="text" name="hod_name"></td></tr>
+    <tr><th>HOD Email</th><td><input type="email" name="hod_email" placeholder="name@company.com"></td></tr>
+    <tr><th>Date of Request</th><td><input type="date" name="request_date"></td></tr>
+  </table>
+
+  <h3>B. Software Details</h3>
+  <table>
+    <tr><th>Software Name</th>
+      <td>
+        <select name="software_name" id="software_name_select" onchange="toggleOtherSoftware()">
+          <option value="">-- Select --</option>
+          <option>Claude</option>
+          <option>ChatGPT</option>
+          <option>SolidWorks</option>
+          <option>Figma</option>
+          <option>Adobe Creative Cloud apps</option>
+          <option value="Other">Other</option>
+        </select>
+        <input type="text" name="software_name_other" id="software_name_other"
+               placeholder="Please specify the software name"
+               style="margin-top:8px;display:none;">
+      </td>
+    </tr>
+    <tr><th>Vendor Name</th><td><input type="text" name="vendor_name"></td></tr>
+    <tr><th>Type (Cloud / On-Premises / Hybrid)</th>
+      <td><select name="deployment_type">
+        <option value="">-- Select --</option>
+        <option>Cloud</option><option>On-Premises</option><option>Hybrid</option>
+      </select></td>
+    </tr>
+    <tr><th>Number of Licenses Required</th><td><input type="number" min="0" name="licenses"></td></tr>
+    <tr><th>Subscription Type (Pro / Teams / Enterprise)</th>
+      <td><select name="subscription_type">
+        <option value="">-- Select --</option>
+        <option>Pro</option><option>Teams</option><option>Enterprise</option><option>Other</option>
+      </select></td>
+    </tr>
+  </table>
+
+  <h3>C. Business Requirement</h3>
+  <table>
+    <tr><th>Purpose of the Software / AI Tool</th><td><textarea name="purpose"></textarea></td></tr>
+    <tr><th>Problem Statement / Need</th><td><textarea name="problem"></textarea></td></tr>
+    <tr><th>Expected Benefits</th><td><textarea name="benefits"></textarea></td></tr>
+  </table>
+
+  <h3>D. Utilization Plan</h3>
+  <table>
+    <tr><th>How will the software / AI Tool be used</th><td><textarea name="usage"></textarea></td></tr>
+    <tr><th>Which teams / users will use it</th><td><textarea name="users"></textarea></td></tr>
+    <tr><th>Frequency of usage</th><td><input type="text" name="frequency"></td></tr>
+  </table>
+
+  <h3>E. Trial Evaluation (Mandatory)</h3>
+  <table>
+    <tr><th>Trial Version Used (Yes / No)</th>
+      <td><select name="trial_used">
+        <option value="">-- Select --</option>
+        <option>Yes</option><option>No</option>
+      </select></td>
+    </tr>
+    <tr><th>Trial Duration</th><td><input type="text" name="trial_duration"></td></tr>
+    <tr><th>Key outcomes from trial</th><td><textarea name="trial_outcomes"></textarea></td></tr>
+    <tr><th>Limitations Observed</th><td><textarea name="limitations"></textarea></td></tr>
+    <tr><th>Justification for Paid Subscription over Free Version</th><td><textarea name="justification"></textarea></td></tr>
+  </table>
+
+  <h3>F. Financial Details</h3>
+  <table>
+    <tr><th>Cost per License</th><td><input type="text" name="cost_per_license" placeholder="e.g. ₹5,000"></td></tr>
+    <tr><th>Total Cost</th><td><input type="text" name="total_cost" placeholder="e.g. ₹50,000"></td></tr>
+  </table>
+
+  <h3>G. Declaration by HOD</h3>
+  <p>I confirm that:</p>
+  <ul>
+    <li>The software has been evaluated using a trial/demo version where available.</li>
+    <li>The requirement is genuine and aligned with departmental goals.</li>
+    <li>Utilization reports will be submitted post-implementation.</li>
+  </ul>
+
+  <div class="sign-block">
+    <h4>HOD Digital Signature</h4>
+    <div class="sign-row">
+      <div><label>Name</label><input type="text" name="hod_sign_name"></div>
+      <div><label>Date</label><input type="date" name="hod_sign_date"></div>
+    </div>
+    <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px;color:#374151;">
+      Signature (draw below using mouse / finger / stylus)
+    </label>
+    <div class="sig-canvas-wrap" id="wrap-hod">
+      <canvas id="sig-hod"></canvas>
+      <div class="sig-placeholder" id="ph-hod">Sign here</div>
+    </div>
+    <div class="sig-actions">
+      <button type="button" class="btn-secondary" onclick="clearSig('hod')">Clear</button>
+      <button type="button" class="btn-success" onclick="lockSig('hod')">Sign &amp; Lock</button>
+    </div>
+    <div class="sig-meta" id="meta-hod"></div>
+  </div>
+
+  <h2>8. IT Review Section <span style="font-weight:normal;font-size:13px;">(For IT Department Only)</span></h2>
+  <table>
+    <tr><th>Security Assessment</th>
+      <td><select name="security"><option value="">-- Select --</option><option>Approved</option><option>Rejected</option></select></td>
+    </tr>
+    <tr><th>Compatibility Check</th>
+      <td><select name="compatibility"><option value="">-- Select --</option><option>Approved</option><option>Rejected</option></select></td>
+    </tr>
+    <tr><th>Cost Justification</th>
+      <td><select name="cost_justification"><option value="">-- Select --</option><option>Approved</option><option>Rejected</option></select></td>
+    </tr>
+    <tr><th>Final Decision</th>
+      <td><select name="final_decision"><option value="">-- Select --</option><option>Approved</option><option>Rejected</option></select></td>
+    </tr>
+    <tr><th>Remarks</th><td><textarea name="remarks"></textarea></td></tr>
+  </table>
+
+  <div class="sign-block">
+    <h4>IT Manager Digital Signature</h4>
+    <div class="sign-row">
+      <div><label>IT Manager Name</label><input type="text" name="it_sign_name"></div>
+      <div><label>Date</label><input type="date" name="it_sign_date"></div>
+    </div>
+    <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px;color:#374151;">
+      Signature (draw below using mouse / finger / stylus)
+    </label>
+    <div class="sig-canvas-wrap" id="wrap-it">
+      <canvas id="sig-it"></canvas>
+      <div class="sig-placeholder" id="ph-it">Sign here</div>
+    </div>
+    <div class="sig-actions">
+      <button type="button" class="btn-secondary" onclick="clearSig('it')">Clear</button>
+      <button type="button" class="btn-success" onclick="lockSig('it')">Sign &amp; Lock</button>
+    </div>
+    <div class="sig-meta" id="meta-it"></div>
+  </div>
+
+  <div class="note">
+    <strong>Note:</strong> Any software procured without following this process will be considered unauthorized
+    and may be subject to removal without notice.
+  </div>
+
+  <div id="status"></div>
+
+  <div class="action-bar">
+    <button type="button" class="btn-primary" id="submitBtn" onclick="submitForm()">Submit Request</button>
+    <button type="button" class="btn-secondary" onclick="window.print()">Print / Save as PDF</button>
+    <button type="button" class="btn-secondary" onclick="downloadJSON()">Download JSON (backup)</button>
+    <button type="button" class="btn-danger" onclick="resetForm()">Reset Form</button>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   CONFIG — PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
+   ===================================================================== */
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz3bCIrlOOAneYe_oaoDYQ9DcQJXyqNar5P_frCNZwOhdvqtPbQEB1tdG4blpX6YBne/exec';
+/* ===================================================================== */
+
+const pads = {};
+
+/* Show/hide the "Other" software name field */
+function toggleOtherSoftware() {
+  const sel = document.getElementById('software_name_select');
+  const other = document.getElementById('software_name_other');
+  if (sel.value === 'Other') {
+    other.style.display = 'block';
+    other.required = true;
+  } else {
+    other.style.display = 'none';
+    other.required = false;
+    other.value = '';
+  }
+}
+
+function initPad(id) {
+  const canvas = document.getElementById('sig-' + id);
+  const wrap = document.getElementById('wrap-' + id);
+  const placeholder = document.getElementById('ph-' + id);
+
+  function resize() {
+    const ratio = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * ratio;
+    canvas.height = rect.height * ratio;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(ratio, ratio);
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = '#0b3b7a';
+  }
+  resize();
+
+  const pad = {
+    canvas, wrap, placeholder,
+    ctx: canvas.getContext('2d'),
+    drawing: false, hasInk: false, locked: false,
+    lastX: 0, lastY: 0
+  };
+  pads[id] = pad;
+
+  function getPoint(e) {
+    const rect = canvas.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return { x: t.clientX - rect.left, y: t.clientY - rect.top };
+  }
+  function start(e) {
+    if (pad.locked) return;
+    e.preventDefault();
+    pad.drawing = true;
+    pad.hasInk = true;
+    placeholder.style.display = 'none';
+    const p = getPoint(e);
+    pad.lastX = p.x; pad.lastY = p.y;
+  }
+  function move(e) {
+    if (!pad.drawing || pad.locked) return;
+    e.preventDefault();
+    const p = getPoint(e);
+    pad.ctx.beginPath();
+    pad.ctx.moveTo(pad.lastX, pad.lastY);
+    pad.ctx.lineTo(p.x, p.y);
+    pad.ctx.stroke();
+    pad.lastX = p.x; pad.lastY = p.y;
+  }
+  function end() { pad.drawing = false; }
+
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  canvas.addEventListener('mouseup', end);
+  canvas.addEventListener('mouseleave', end);
+  canvas.addEventListener('touchstart', start, { passive: false });
+  canvas.addEventListener('touchmove', move, { passive: false });
+  canvas.addEventListener('touchend', end);
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const data = pad.hasInk ? canvas.toDataURL() : null;
+      resize();
+      if (data) {
+        const img = new Image();
+        img.onload = () => pad.ctx.drawImage(img, 0, 0, canvas.getBoundingClientRect().width, canvas.getBoundingClientRect().height);
+        img.src = data;
+      }
+    }, 200);
+  });
+}
+
+function clearSig(id) {
+  const pad = pads[id];
+  if (pad.locked) {
+    if (!confirm('Signature is locked. Clear it?')) return;
+    pad.locked = false;
+    pad.canvas.style.pointerEvents = 'auto';
+    pad.wrap.style.borderStyle = 'dashed';
+    pad.wrap.style.borderColor = '#94a3b8';
+    document.getElementById('meta-' + id).classList.remove('active');
+    pad._meta = null;
+  }
+  const rect = pad.canvas.getBoundingClientRect();
+  pad.ctx.clearRect(0, 0, rect.width, rect.height);
+  pad.hasInk = false;
+  pad.placeholder.style.display = 'block';
+}
+
+async function lockSig(id) {
+  const pad = pads[id];
+  if (!pad.hasInk) { alert('Please draw your signature first.'); return; }
+  if (pad.locked) { alert('Signature already locked.'); return; }
+
+  const nameField = document.querySelector(`[name="${id}_sign_name"]`).value.trim();
+  const dateField = document.querySelector(`[name="${id}_sign_date"]`).value.trim();
+  if (!nameField) { alert("Please enter the signer's name above."); return; }
+  if (!dateField) { alert('Please enter the date above.'); return; }
+
+  const dataUrl = pad.canvas.toDataURL('image/png');
+  const timestamp = new Date().toISOString();
+  const hash = await sha256(dataUrl + '|' + nameField + '|' + dateField + '|' + timestamp);
+
+  pad.locked = true;
+  pad.canvas.style.pointerEvents = 'none';
+  pad.wrap.style.borderStyle = 'solid';
+  pad.wrap.style.borderColor = '#15803d';
+
+  const meta = document.getElementById('meta-' + id);
+  meta.innerHTML =
+    '<strong>✓ Signed &amp; Locked</strong><br>' +
+    'Signer: <b>' + escapeHtml(nameField) + '</b><br>' +
+    'Date: ' + escapeHtml(dateField) + '<br>' +
+    'Timestamp: ' + timestamp + '<br>' +
+    'Signature hash (SHA-256): <code>' + hash + '</code>';
+  meta.classList.add('active');
+  pad._meta = { signer: nameField, date: dateField, timestamp, hash, dataUrl };
+}
+
+async function sha256(str) {
+  const buf = new TextEncoder().encode(str);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+function showStatus(message, type) {
+  const el = document.getElementById('status');
+  el.className = 'show ' + type;
+  el.innerHTML = message;
+  if (type === 'success') {
+    window.scrollTo({ top: el.offsetTop - 60, behavior: 'smooth' });
+  }
+}
+function hideStatus() { document.getElementById('status').className = ''; }
+
+async function submitForm() {
+  hideStatus();
+
+  // If "Other" is selected, require the custom name
+  const swSel = document.getElementById('software_name_select');
+  const swOther = document.getElementById('software_name_other');
+  if (swSel.value === 'Other' && !swOther.value.trim()) {
+    showStatus('⚠️ Please specify the software name in the "Other" field.', 'error');
+    swOther.focus();
+    return;
+  }
+
+  const required = ['dept_name', 'hod_name', 'hod_email', 'software_name', 'vendor_name'];
+  for (const field of required) {
+    const el = document.querySelector(`[name="${field}"]`);
+    if (!el.value.trim()) {
+      showStatus('⚠️ Please fill in: <b>' + field.replace(/_/g, ' ') + '</b>', 'error');
+      el.focus();
+      return;
+    }
+  }
+  if (!pads.hod._meta) {
+    showStatus('⚠️ Please sign and lock the HOD signature before submitting.', 'error');
+    return;
+  }
+  if (SCRIPT_URL === 'PASTE_YOUR_APPS_SCRIPT_URL_HERE') {
+    showStatus('⚠️ Script URL not configured. Open this HTML file and replace PASTE_YOUR_APPS_SCRIPT_URL_HERE at the top of the script.', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Submitting...';
+  showStatus('<span class="spinner" style="border-color:#1e3a8a;border-top-color:transparent"></span> Sending your request...', 'info');
+
+  const data = {};
+  document.querySelectorAll('input, textarea, select').forEach(el => {
+    if (el.name) data[el.name] = el.value;
+  });
+  // If "Other" was chosen, use the typed value as the software name
+  if (data.software_name === 'Other' && data.software_name_other) {
+    data.software_name = data.software_name_other;
+  }
+  data._submitted_at = new Date().toISOString();
+  data._hod_signature = pads.hod._meta || null;
+  data._it_signature = pads.it._meta || null;
+
+  try {
+    const response = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    if (result.status === 'success') {
+      showStatus('✅ <b>Request submitted successfully!</b><br>Reference ID: <code>' + (result.id || 'N/A') + '</code>', 'success');
+      btn.innerHTML = '✓ Submitted';
+    } else {
+      throw new Error(result.message || 'Unknown error');
+    }
+  } catch (err) {
+    showStatus('❌ Submission failed: ' + escapeHtml(err.message) + '<br>Please try again or download a JSON backup.', 'error');
+    btn.disabled = false;
+    btn.innerHTML = 'Submit Request';
+  }
+}
+
+function downloadJSON() {
+  const data = {};
+  document.querySelectorAll('input, textarea, select').forEach(el => {
+    if (el.name) data[el.name] = el.value;
+  });
+  // If "Other" was chosen, use the typed value as the software name
+  if (data.software_name === 'Other' && data.software_name_other) {
+    data.software_name = data.software_name_other;
+  }
+  data._signatures = {};
+  ['hod', 'it'].forEach(id => {
+    if (pads[id] && pads[id]._meta) data._signatures[id] = pads[id]._meta;
+  });
+  data._exported_at = new Date().toISOString();
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'software_purchase_request_' + Date.now() + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function resetForm() {
+  if (!confirm('Reset the entire form and clear both signatures?')) return;
+  document.querySelectorAll('input, textarea, select').forEach(el => el.value = '');
+  // Hide the "Other" software input on reset
+  document.getElementById('software_name_other').style.display = 'none';
+  ['hod', 'it'].forEach(id => {
+    pads[id].locked = false;
+    pads[id].canvas.style.pointerEvents = 'auto';
+    pads[id].wrap.style.borderStyle = 'dashed';
+    pads[id].wrap.style.borderColor = '#94a3b8';
+    clearSig(id);
+    document.getElementById('meta-' + id).classList.remove('active');
+    pads[id]._meta = null;
+  });
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = false;
+  btn.innerHTML = 'Submit Request';
+  hideStatus();
+}
+
+window.addEventListener('load', () => {
+  initPad('hod');
+  initPad('it');
+});
+</script>
+</body>
+</html>
